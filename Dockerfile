@@ -108,8 +108,9 @@ RUN set -ex; \
     git clone --branch ${TSDB_VERSION} \
         https://github.com/timescale/timescaledb.git /tmp/timescaledb; \
     cd /tmp/timescaledb; \
-    ./bootstrap \
-    cd build && make; \
+    ./bootstrap; \
+    cd build; \
+    make; \
     make install; \
     \
     mkdir /usr/share/doc/timescaledb; \
