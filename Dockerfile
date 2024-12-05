@@ -24,10 +24,10 @@ RUN set -ex; \
     cd /tmp/pgvector; \
     make; \
     make install; \
-    ; \
+    \
     mkdir /usr/share/doc/pgvector; \
 	cp LICENSE README.md /usr/share/doc/pgvector; \
-    ; \
+    \
 	apt remove -y --no-install-recommends \
         build-essential \
         postgresql-server-dev-${PG_MAJOR_VERSION}; \
@@ -52,13 +52,13 @@ RUN set -ex; \
     apt update; \
     apt --fix-broken install -y --no-install-recommends \
         /tmp/pgvectors/vectors.deb; \
-    ; \
+    \
     mkdir /usr/share/doc/pgvectors; \
     curl -fsSL https://raw.githubusercontent.com/tensorchord/pgvecto.rs/refs/tags/v${PGVECTORS_VERSION}/README.md \
         -o /usr/share/doc/pgvectors/README.md; \
     curl -fsSL https://raw.githubusercontent.com/tensorchord/pgvecto.rs/refs/tags/v${PGVECTORS_VERSION}/LICENSE \
         -o /usr/share/doc/pgvectors/LICENSE; \
-    ; \
+    \
     apt-mark unhold locales; \
     apt autoremove -y; \
     apt autoclean -y; \
@@ -82,7 +82,7 @@ RUN set -ex; \
     apt install -y --no-install-recommends \
         timescaledb-2-postgresql-${PG_MAJOR_VERSION}='${TSDB_VERSION}*' \
         timescaledb-2-loader-postgresql-${PG_MAJOR_VERSION}='${TSDB_VERSION}*'; \
-    ; \
+    \
     mkdir /usr/share/doc/timescaledb; \
     curl -fsSL https://raw.githubusercontent.com/timescale/timescaledb/refs/tags/${TSDB_VERSION}/README.md \
         -o /usr/share/doc/timescaledb/README.md; \
@@ -90,7 +90,7 @@ RUN set -ex; \
         -o /usr/share/doc/timescaledb/LICENSE; \
     curl -fsSL https://raw.githubusercontent.com/timescale/timescaledb/refs/tags/${TSDB_VERSION}/LICENSE-APACHE \
         -o /usr/share/doc/timescaledb/LICENSE-APACHE; \
-    ; \
+    \
     apt-mark unhold locales; \
     apt autoremove -y; \
     apt autoclean -y; \
