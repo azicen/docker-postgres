@@ -16,6 +16,7 @@ RUN set -ex; \
     apt update; \
     apt install -y --no-install-recommends \
         curl \
+        gnupg \
         lsb-release \
         postgresql-common; \
     /usr/share/postgresql-common/pgdg/apt.postgresql.org.sh -y; \
