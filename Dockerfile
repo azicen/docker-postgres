@@ -33,8 +33,9 @@ RUN set -ex; \
     apt-mark hold locales; \
     apt update; \
     apt install -y --no-install-recommends \
+        build-essential \
         git \
-        build-essential; \
+        make; \
     \
     git clone --branch v${PGVECTOR_VERSION} \
         https://github.com/pgvector/pgvector.git /tmp/pgvector; \
@@ -46,8 +47,9 @@ RUN set -ex; \
 	cp LICENSE README.md /usr/share/doc/pgvector; \
     \
 	apt remove -y --no-install-recommends \
+        build-essential \
         git \
-        build-essential; \
+        make; \
     apt-mark unhold locales; \
     apt autoremove -y; \
     apt autoclean -y; \
