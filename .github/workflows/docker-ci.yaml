@@ -40,6 +40,8 @@ jobs:
           echo "REGISTRY_USERNAME:  ${{ env.REGISTRY_USERNAME }}"
           echo "IMAGE:              ${{ env.IMAGE }}"
           echo "GIT_TAG_VERSION:    ${{ env.GIT_TAG_VERSION }}"
+          echo "VERSION:            ${{ env.VERSION }}"
+          echo "PG_MAJOR_VERSION:   ${{ env.PG_MAJOR_VERSION }}"
 
       # 配置 QEMU 和 buildx 用于多架构镜像的构建
       - name: 配置 QEMU 环境
