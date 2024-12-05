@@ -34,7 +34,7 @@ RUN set -ex; \
     apt update; \
     apt install -y --no-install-recommends \
         git \
-        make; \
+        build-essential; \
     \
     git clone --branch v${PGVECTOR_VERSION} \
         https://github.com/pgvector/pgvector.git /tmp/pgvector; \
@@ -47,7 +47,7 @@ RUN set -ex; \
     \
 	apt remove -y --no-install-recommends \
         git \
-        make; \
+        build-essential; \
     apt-mark unhold locales; \
     apt autoremove -y; \
     apt autoclean -y; \
