@@ -16,7 +16,6 @@ RUN set -ex; \
     apt update; \
     apt install -y --no-install-recommends \
         curl; \
-    /usr/share/postgresql-common/pgdg/apt.postgresql.org.sh -y; \
     apt-mark unhold locales; \
     apt autoremove -y; \
     apt autoclean -y; \
