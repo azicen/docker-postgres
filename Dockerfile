@@ -9,6 +9,8 @@ ARG PGVECTORS_VERSION
 ARG PGVECTOR_VERSION
 ARG TSDB_VERSION
 
+ENV POSTGRESQL_SHARED_PRELOAD_LIBRARIES="repmgr, pgaudit, timescaledb, vectors.so"
+
 USER root
 
 RUN set -ex; \
