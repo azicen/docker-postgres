@@ -2,6 +2,7 @@ ARG PG_VERSION
 
 FROM bitnami/postgresql-repmgr:$PG_VERSION AS release
 
+ARG TARGETARCH
 ARG PG_VERSION
 ARG PG_MAJOR_VERSION
 ARG PGVECTORS_VERSION
@@ -63,7 +64,7 @@ RUN set -ex; \
 ### pgvecto.rs
 RUN set -ex; \
     mkdir /tmp/pgvectors; \
-    curl -fsSL https://github.com/tensorchord/pgvecto.rs/releases/download/v${PGVECTORS_VERSION}/vectors-pg${PG_MAJOR_VERSION}_${PGVECTORS_VERSION}_${$TARGETARCH}.deb \
+    curl -fsSL https://github.com/tensorchord/pgvecto.rs/releases/download/v${PGVECTORS_VERSION}/vectors-pg${PG_MAJOR_VERSION}_${PGVECTORS_VERSION}_${TARGETARCH}.deb \
         -o /tmp/pgvectors/vectors.deb; \
     apt-mark hold locales; \
     apt update; \
