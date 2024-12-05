@@ -33,9 +33,7 @@ RUN set -ex; \
     apt-mark hold locales; \
     apt update; \
     apt install -y --no-install-recommends \
-        git \
-        build-essential \
-        postgresql-server-dev-${PG_MAJOR_VERSION}; \
+        git; \
     \
     git clone --branch v${PGVECTOR_VERSION} \
         https://github.com/pgvector/pgvector.git /tmp/pgvector; \
@@ -47,9 +45,7 @@ RUN set -ex; \
 	cp LICENSE README.md /usr/share/doc/pgvector; \
     \
 	apt remove -y --no-install-recommends \
-        git \
-        build-essential \
-        postgresql-server-dev-${PG_MAJOR_VERSION}; \
+        git; \
     apt-mark unhold locales; \
     apt autoremove -y; \
     apt autoclean -y; \
