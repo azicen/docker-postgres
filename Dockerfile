@@ -101,8 +101,8 @@ RUN set -ex; \
     apt-mark hold locales; \
     apt update; \
     apt install -y --no-install-recommends \
-        timescaledb-2-postgresql-${PG_MAJOR_VERSION}='${TSDB_VERSION}*' \
-        timescaledb-2-loader-postgresql-${PG_MAJOR_VERSION}='${TSDB_VERSION}*'; \
+        timescaledb-2-postgresql-${PG_MAJOR_VERSION}="${TSDB_VERSION}*" \
+        timescaledb-2-loader-postgresql-${PG_MAJOR_VERSION}="${TSDB_VERSION}*"; \
     \
     mkdir /usr/share/doc/timescaledb; \
     curl -fsSL https://raw.githubusercontent.com/timescale/timescaledb/refs/tags/${TSDB_VERSION}/README.md \
