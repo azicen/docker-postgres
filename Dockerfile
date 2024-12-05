@@ -34,8 +34,7 @@ RUN set -ex; \
     apt update; \
     apt install -y --no-install-recommends \
         build-essential \
-        git \
-        make; \
+        git; \
     \
     git clone --branch v${PGVECTOR_VERSION} \
         https://github.com/pgvector/pgvector.git /tmp/pgvector; \
@@ -48,8 +47,7 @@ RUN set -ex; \
     \
 	apt remove -y --no-install-recommends \
         build-essential \
-        git \
-        make; \
+        git; \
     apt-mark unhold locales; \
     apt autoremove -y; \
     apt autoclean -y; \
@@ -102,8 +100,9 @@ RUN set -ex; \
     apt-mark hold locales; \
     apt update; \
     apt install -y --no-install-recommends \
-        git \
+        build-essential \
         cmake \
+        git \
         libssl-dev; \
     \
     git clone --branch ${TSDB_VERSION} \
@@ -118,8 +117,9 @@ RUN set -ex; \
     cp LICENSE LICENSE-APACHE README.md /usr/share/doc/timescaledb; \
     \
     apt remove -y --no-install-recommends \
-        git \
+        build-essential \
         cmake \
+        git \
         libssl-dev; \
     apt-mark unhold locales; \
     apt autoremove -y; \
