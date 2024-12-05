@@ -39,7 +39,7 @@ RUN set -ex; \
     git clone --branch v${PGVECTOR_VERSION} \
         https://github.com/pgvector/pgvector.git /tmp/pgvector; \
     cd /tmp/pgvector; \
-    make; \
+    make OPTFLAGS=""; \
     make install; \
     \
     mkdir /usr/share/doc/pgvector; \
