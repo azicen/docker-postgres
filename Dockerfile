@@ -10,6 +10,23 @@ ARG TSDB_VERSION
 
 USER root
 
+RUN set -ex; \
+    apt-mark hold locales; \
+    apt update; \
+    apt install -y --no-install-recommends \
+        postgresql-common; \
+    /usr/share/postgresql-common/pgdg/apt.postgresql.org.sh -y; \
+    apt-mark unhold locales; \
+    apt autoremove -y; \
+    apt autoclean -y; \
+    apt clean; \
+    rm -rf \
+        /config/.cache \
+        /config/.launchpadlib \
+        /var/lib/apt/lists/* \
+        /var/tmp/* \
+        /tmp/*
+
 
 ### pgvector
 RUN set -ex; \
