@@ -15,6 +15,7 @@ RUN set -ex; \
     apt-mark hold locales; \
     apt update; \
     apt install -y --no-install-recommends \
+        curl \
         postgresql-common; \
     /usr/share/postgresql-common/pgdg/apt.postgresql.org.sh -y; \
     apt-mark unhold locales; \
