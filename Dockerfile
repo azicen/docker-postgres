@@ -40,6 +40,7 @@ RUN set -ex; \
         git \
         build-essential \
         postgresql-server-dev-${PG_MAJOR_VERSION}; \
+    \
     git clone --branch v${PGVECTOR_VERSION} \
         https://github.com/pgvector/pgvector.git /tmp/pgvector; \
     cd /tmp/pgvector; \
@@ -50,6 +51,7 @@ RUN set -ex; \
 	cp LICENSE README.md /usr/share/doc/pgvector; \
     \
 	apt remove -y --no-install-recommends \
+        git \
         build-essential \
         postgresql-server-dev-${PG_MAJOR_VERSION}; \
     apt-mark unhold locales; \
@@ -66,13 +68,18 @@ RUN set -ex; \
 
 ### pgvecto.rs
 RUN set -ex; \
-    mkdir /tmp/pgvectors; \
-    curl -fsSL https://github.com/tensorchord/pgvecto.rs/releases/download/v${PGVECTORS_VERSION}/vectors-pg${PG_MAJOR_VERSION}_${PGVECTORS_VERSION}_${TARGETARCH}.deb \
-        -o /tmp/pgvectors/vectors.deb; \
+    curl -fsSL https://github.com/tensorchord/pgvecto.rs/releases/download/v${PGVECTORS_VERSION}/vectors-pg${PG_MAJOR_VERSION}_$(uname -m)-unknown-linux-gnu_${PGVECTORS_VERSION}.zip \
+        -o /tmp/vectors.zip; \
     apt-mark hold locales; \
     apt update; \
-    apt --fix-broken install -y --no-install-recommends \
-        /tmp/pgvectors/vectors.deb; \
+    apt install -y --no-install-recommends \
+        unzip; \
+    \
+    mkdir /tmp/pgvectors; \
+    unzip vectors.zip -d /tmp/pgvectors; \
+    cp /tmp/pgvectors/vectors.so $(pg_config --pkglibdir); \
+    cp /tmp/pgvectors/vectors--* $(pg_config --sharedir)/extension; \
+    cp /tmp/pgvectors/vectors.control $(pg_config --sharedir)/extension; \
     \
     mkdir /usr/share/doc/pgvectors; \
     curl -fsSL https://raw.githubusercontent.com/tensorchord/pgvecto.rs/refs/tags/v${PGVECTORS_VERSION}/README.md \
@@ -80,6 +87,8 @@ RUN set -ex; \
     curl -fsSL https://raw.githubusercontent.com/tensorchord/pgvecto.rs/refs/tags/v${PGVECTORS_VERSION}/LICENSE \
         -o /usr/share/doc/pgvectors/LICENSE; \
     \
+    apt remove -y --no-install-recommends \
+        unzip; \
     apt-mark unhold locales; \
     apt autoremove -y; \
     apt autoclean -y; \
@@ -94,24 +103,28 @@ RUN set -ex; \
 
 ### timescaledb
 RUN set -ex; \
-    echo "deb https://packagecloud.io/timescale/timescaledb/debian/ $(lsb_release -c -s) main" \
-        | tee /etc/apt/sources.list.d/timescaledb.list; \
-    curl -fsSL https://packagecloud.io/timescale/timescaledb/gpgkey \
-        | gpg --dearmor -o /etc/apt/trusted.gpg.d/timescaledb.gpg; \
     apt-mark hold locales; \
     apt update; \
     apt install -y --no-install-recommends \
-        timescaledb-2-postgresql-${PG_MAJOR_VERSION}="${TSDB_VERSION}*" \
-        timescaledb-2-loader-postgresql-${PG_MAJOR_VERSION}="${TSDB_VERSION}*"; \
+        git \
+        cmake \
+        libssl-dev; \
+    \
+    git clone --branch ${TSDB_VERSION} \
+        https://github.com/timescale/timescaledb.git /tmp/timescaledb; \
+    cd /tmp/timescaledb; \
+    ./bootstrap \
+    cd build && make; \
+    make install; \
     \
     mkdir /usr/share/doc/timescaledb; \
-    curl -fsSL https://raw.githubusercontent.com/timescale/timescaledb/refs/tags/${TSDB_VERSION}/README.md \
-        -o /usr/share/doc/timescaledb/README.md; \
-    curl -fsSL https://raw.githubusercontent.com/timescale/timescaledb/refs/tags/${TSDB_VERSION}/LICENSE \
-        -o /usr/share/doc/timescaledb/LICENSE; \
-    curl -fsSL https://raw.githubusercontent.com/timescale/timescaledb/refs/tags/${TSDB_VERSION}/LICENSE-APACHE \
-        -o /usr/share/doc/timescaledb/LICENSE-APACHE; \
+    cd ..; \
+    cp LICENSE LICENSE-APACHE README.md /usr/share/doc/timescaledb; \
     \
+    apt remove -y --no-install-recommends \
+        git \
+        cmake \
+        libssl-dev; \
     apt-mark unhold locales; \
     apt autoremove -y; \
     apt autoclean -y; \
