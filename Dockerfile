@@ -15,10 +15,7 @@ RUN set -ex; \
     apt-mark hold locales; \
     apt update; \
     apt install -y --no-install-recommends \
-        curl \
-        gnupg \
-        lsb-release \
-        postgresql-common; \
+        curl; \
     /usr/share/postgresql-common/pgdg/apt.postgresql.org.sh -y; \
     apt-mark unhold locales; \
     apt autoremove -y; \
@@ -76,7 +73,7 @@ RUN set -ex; \
         unzip; \
     \
     mkdir /tmp/pgvectors; \
-    unzip vectors.zip -d /tmp/pgvectors; \
+    unzip /tmp/vectors.zip -d /tmp/pgvectors; \
     cp /tmp/pgvectors/vectors.so $(pg_config --pkglibdir); \
     cp /tmp/pgvectors/vectors--* $(pg_config --sharedir)/extension; \
     cp /tmp/pgvectors/vectors.control $(pg_config --sharedir)/extension; \
