@@ -16,6 +16,7 @@ RUN set -ex; \
     apt update; \
     apt install -y --no-install-recommends \
         curl \
+        lsb-release \
         postgresql-common; \
     /usr/share/postgresql-common/pgdg/apt.postgresql.org.sh -y; \
     apt-mark unhold locales; \
@@ -93,7 +94,7 @@ RUN set -ex; \
 ### timescaledb
 RUN set -ex; \
     echo "deb https://packagecloud.io/timescale/timescaledb/debian/ $(lsb_release -c -s) main" \
-        | sudo tee /etc/apt/sources.list.d/timescaledb.list; \
+        | tee /etc/apt/sources.list.d/timescaledb.list; \
     curl -fsSL https://packagecloud.io/timescale/timescaledb/gpgkey \
         | gpg --dearmor -o /etc/apt/trusted.gpg.d/timescaledb.gpg; \
     apt-mark hold locales; \
