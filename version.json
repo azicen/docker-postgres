@@ -1,0 +1,8 @@
+{
+  "postgre": "17.2.0",
+  "plugin": {
+    "pgvecto_rs": "0.4.0",
+    "pgvector": "0.8.0",
+    "timescaledb": "2.17.2"
+  }
+}
