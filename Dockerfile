@@ -22,7 +22,7 @@ RUN set -ex; \
         iproute2 \
         iputils-ping \
         procps \
-        libncurses6; \
+        libtinfo6; \
     apt-mark unhold locales; \
     apt autoremove -y; \
     apt autoclean -y; \
