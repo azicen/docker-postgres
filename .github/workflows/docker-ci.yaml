@@ -14,15 +14,18 @@ env:
 
 jobs:
   build-and-push:
-    runs-on: ${{ matrix.runner }}
     strategy:
+      fail-fast: false
       matrix:
-        platform: [amd64, arm64]
         include:
-          - platform: amd64
-            runner: ubuntu-latest
-          - platform: arm64
-            runner: ubuntu-latest-arm
+          - os: ubuntu-latest
+            platform: linux
+            arch: arm64
+          - os: ubuntu-latest
+            platform: linux
+            arch: amd64
+
+    runs-on: ${{ matrix.runner }}
 
     # 这里用于定义 GITHUB_TOKEN 的权限
     permissions:
