@@ -14,6 +14,9 @@ ENV POSTGRESQL_SHARED_PRELOAD_LIBRARIES="repmgr, pgaudit, timescaledb, vectors.s
 USER root
 
 RUN set -ex; \
+    ldd /opt/bitnami/postgresql/bin/postgres;
+
+RUN set -ex; \
     apt-mark hold locales; \
     apt update; \
     apt install -y --no-install-recommends \
@@ -21,12 +24,8 @@ RUN set -ex; \
         ca-certificates \
         iproute2 \
         iputils-ping \
-        procps \
-        ncurses-base \
-        libncurses6 \
-        libncursesw6 \
-        libtinfo6 \
-        libncurses-dev; \
+        less \
+        procps; \
     apt-mark unhold locales; \
     apt autoremove -y; \
     apt autoclean -y; \
