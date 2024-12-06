@@ -17,7 +17,12 @@ RUN set -ex; \
     apt-mark hold locales; \
     apt update; \
     apt install -y --no-install-recommends \
-        curl; \
+        curl \
+        ca-certificates \
+        iproute2 \
+        iputils-ping \
+        procps \
+        libncurses6; \
     apt-mark unhold locales; \
     apt autoremove -y; \
     apt autoclean -y; \
