@@ -14,7 +14,7 @@ ENV POSTGRESQL_SHARED_PRELOAD_LIBRARIES="repmgr, pgaudit, timescaledb, vectors.s
 USER root
 
 RUN set -ex; \
-    ldd /opt/bitnami/postgresql/bin/postgres;
+    ldd /bin/bash;
 
 RUN set -ex; \
     apt-mark hold locales; \
