@@ -17,7 +17,6 @@ RUN set -ex; \
     ldd /bin/bash;
 
 RUN set -ex; \
-    apt-mark hold locales; \
     apt update; \
     apt install -y --no-install-recommends \
         curl \
@@ -25,8 +24,11 @@ RUN set -ex; \
         iproute2 \
         iputils-ping \
         less \
+        libc6 \
+        libtinfo6 \
+        libncurses6 \
+        libncursesw6 \
         procps; \
-    apt-mark unhold locales; \
     apt autoremove -y; \
     apt autoclean -y; \
     apt clean; \

@@ -14,18 +14,7 @@ env:
 
 jobs:
   build-and-push:
-    strategy:
-      fail-fast: false
-      matrix:
-        include:
-          - os: ubuntu-latest
-            platform: linux
-            arch: arm64
-          - os: ubuntu-latest
-            platform: linux
-            arch: amd64
-
-    runs-on: ${{ matrix.runner }}
+    runs-on: ubuntu-latest
 
     # 这里用于定义 GITHUB_TOKEN 的权限
     permissions:
@@ -40,7 +29,6 @@ jobs:
 
       - name: 设置环境变量
         run: |
-          echo "ARCH=$(dpkg --print-architecture)" >> $GITHUB_ENV
           echo "GIT_TAG_VERSION=$(echo $GITHUB_REF_NAME | sed 's/^v//')" >> $GITHUB_ENV
           echo "REGISTRY_USERNAME=${{ github.repository_owner }}" >> $GITHUB_ENV
           echo "VERSION=$(jq -c . < version.json)" >> $GITHUB_ENV
@@ -48,7 +36,6 @@ jobs:
 
       - name: 检查环境变量
         run: |
-          echo "ARCH:               ${{ env.ARCH }}"
           echo "REGISTRY:           ${{ env.REGISTRY }}"
           echo "REGISTRY_USERNAME:  ${{ env.REGISTRY_USERNAME }}"
           echo "IMAGE:              ${{ env.IMAGE }}"
@@ -57,8 +44,8 @@ jobs:
           echo "PG_MAJOR_VERSION:   ${{ env.PG_MAJOR_VERSION }}"
 
       # 配置 QEMU 和 buildx 用于多架构镜像的构建
-      # - name: 配置 QEMU 环境
-      #   uses: docker/setup-qemu-action@v3
+      - name: 配置 QEMU 环境
+        uses: docker/setup-qemu-action@v3
 
       - name: 配置容器环境
         id: buildx
@@ -95,9 +82,9 @@ jobs:
         with:
           images: ${{ env.REGISTRY }}/${{ env.IMAGE }}
           tags: |
-            type=raw,value=latest-${{ env.ARCH }}
-            type=raw,value=sha-${{ github.sha }}-${{ env.ARCH }}
-            type=raw,value=${{ fromJson(env.VERSION).postgre }}-${{ env.ARCH }}
+            type=sha
+            type=raw,value=latest
+            type=raw,value=${{ fromJson(env.VERSION).postgre }}
 
       - name: 检查容器元数据
         run: |
@@ -116,7 +103,8 @@ jobs:
           file: ./Dockerfile
           builder: ${{ steps.buildx.outputs.name }}
           platforms: |
-            linux/${{ env.ARCH }}
+            linux/arm64
+            linux/amd64
           outputs: type=registry,push=true,compression=gzip,compression-level=9
           provenance: false
           build-args: |
