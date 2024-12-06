@@ -22,7 +22,9 @@ RUN set -ex; \
         iproute2 \
         iputils-ping \
         procps \
-        ncurses \
+        ncurses-base \
+        libncurses6 \
+        libncursesw6 \
         libtinfo6 \
         libncurses-dev; \
     apt-mark unhold locales; \
