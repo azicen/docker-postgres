@@ -20,9 +20,9 @@ jobs:
         platform: [amd64, arm64]
         include:
           - platform: amd64
-            runner: ubuntu-2204
+            runner: ubuntu-latest
           - platform: arm64
-            runner: ubuntu-2204-arm
+            runner: ubuntu-latest-arm
 
     # 这里用于定义 GITHUB_TOKEN 的权限
     permissions:
