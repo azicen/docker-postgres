@@ -22,14 +22,14 @@ RUN set -ex; \
         iproute2 \
         iputils-ping \
         procps \
-        libtinfo6; \
+        ncurses \
+        libtinfo6 \
+        libncurses-dev; \
     apt-mark unhold locales; \
     apt autoremove -y; \
     apt autoclean -y; \
     apt clean; \
     rm -rf \
-        /config/.cache \
-        /config/.launchpadlib \
         /var/lib/apt/lists/* \
         /var/tmp/* \
         /tmp/*
@@ -60,8 +60,6 @@ RUN set -ex; \
     apt autoclean -y; \
     apt clean; \
     rm -rf \
-        /config/.cache \
-        /config/.launchpadlib \
         /var/lib/apt/lists/* \
         /var/tmp/* \
         /tmp/*
@@ -95,8 +93,6 @@ RUN set -ex; \
     apt autoclean -y; \
     apt clean; \
     rm -rf \
-        /config/.cache \
-        /config/.launchpadlib \
         /var/lib/apt/lists/* \
         /var/tmp/* \
         /tmp/*
@@ -134,8 +130,6 @@ RUN set -ex; \
     apt autoclean -y; \
     apt clean; \
     rm -rf \
-        /config/.cache \
-        /config/.launchpadlib \
         /var/lib/apt/lists/* \
         /var/tmp/* \
         /tmp/*
