@@ -68,18 +68,28 @@ RUN set -ex; \
 
 ### pgvecto.rs
 RUN set -ex; \
-    curl -fsSL https://github.com/tensorchord/pgvecto.rs/releases/download/v${PGVECTORS_VERSION}/vectors-pg${PG_MAJOR_VERSION}_$(uname -m)-unknown-linux-gnu_${PGVECTORS_VERSION}.zip \
-        -o /tmp/vectors.zip; \
     apt-mark hold locales; \
     apt update; \
     apt install -y --no-install-recommends \
         unzip; \
     \
     mkdir /tmp/pgvectors; \
-    unzip /tmp/vectors.zip -d /tmp/pgvectors; \
-    cp /tmp/pgvectors/vectors.so $(pg_config --pkglibdir); \
-    cp /tmp/pgvectors/vectors--* $(pg_config --sharedir)/extension; \
-    cp /tmp/pgvectors/vectors.control $(pg_config --sharedir)/extension; \
+    if [ "${PG_MAJOR_VERSION}" = "17" ] && [ "${PGVECTORS_VERSION}" = "0.3.0" ]; then \
+        # 下载 .deb 包并解压
+        curl -fsSL https://github.com/tensorchord/pgvecto.rs/releases/download/v${PGVECTORS_VERSION}/vectors-pg${PG_MAJOR_VERSION}_${PGVECTORS_VERSION}_$(dpkg --print-architecture)_vectors.deb \
+            -o /tmp/vectors.deb; \
+        dpkg-deb -x /tmp/vectors.deb /tmp/pgvectors; \
+        cp /tmp/pgvectors/usr/lib/postgresql/${PG_MAJOR_VERSION}/lib/vectors.so $(pg_config --pkglibdir); \
+        cp /tmp/pgvectors/usr/share/postgresql/${PG_MAJOR_VERSION}/extension/vectors--* $(pg_config --sharedir)/extension; \
+        cp /tmp/pgvectors/usr/share/postgresql/${PG_MAJOR_VERSION}/extension/vectors.control $(pg_config --sharedir)/extension; \
+    else \
+        curl -fsSL https://github.com/tensorchord/pgvecto.rs/releases/download/v${PGVECTORS_VERSION}/vectors-pg${PG_MAJOR_VERSION}_$(uname -m)-unknown-linux-gnu_${PGVECTORS_VERSION}.zip \
+            -o /tmp/vectors.zip; \
+        unzip /tmp/vectors.zip -d /tmp/pgvectors; \
+        cp /tmp/pgvectors/vectors.so $(pg_config --pkglibdir); \
+        cp /tmp/pgvectors/vectors--* $(pg_config --sharedir)/extension; \
+        cp /tmp/pgvectors/vectors.control $(pg_config --sharedir)/extension; \
+    fi; \
     \
     mkdir /usr/share/doc/pgvectors; \
     curl -fsSL https://raw.githubusercontent.com/tensorchord/pgvecto.rs/refs/tags/v${PGVECTORS_VERSION}/README.md \
