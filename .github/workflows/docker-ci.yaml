@@ -103,6 +103,7 @@ jobs:
           file: ./Dockerfile
           builder: ${{ steps.buildx.outputs.name }}
           platforms: |
+            linux/arm64
             linux/amd64
           outputs: type=registry,push=true,compression=gzip,compression-level=9
           provenance: false
