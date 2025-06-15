@@ -1,5 +1,5 @@
 {
-  "postgre": "17.2.0",
+  "postgre": "17.5.0",
   "plugin": {
     "pgvecto_rs": "0.4.0",
     "pgvector": "0.7.4",
