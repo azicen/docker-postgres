@@ -2,11 +2,7 @@ name: 构建容器镜像
 
 on:
   workflow_dispatch: # 手动触发
-
-  # 创建 v 开头的 tag 时触发
   push:
-    tags:
-      - v*
 
 env:
   REGISTRY: ${{ vars.REGISTRY }}
