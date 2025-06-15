@@ -9,7 +9,7 @@ ARG PGVECTORS_VERSION
 ARG PGVECTOR_VERSION
 ARG TSDB_VERSION
 
-ENV POSTGRESQL_SHARED_PRELOAD_LIBRARIES="repmgr, pgaudit, timescaledb, vectors.so"
+ENV POSTGRESQL_SHARED_PRELOAD_LIBRARIES="repmgr, pgaudit, timescaledb, vectors.so, pg_stat_statements"
 
 USER root
 
